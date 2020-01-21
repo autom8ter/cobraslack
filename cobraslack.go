@@ -13,7 +13,6 @@ type SlashCommand struct {
 	rootCmd *cobra.Command
 }
 
-
 func New(rootCmd *cobra.Command) *SlashCommand {
 	return &SlashCommand{
 		rootCmd: rootCmd,
