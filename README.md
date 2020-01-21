@@ -13,10 +13,10 @@ type SlashCommand struct {
 ```
 
 
-#### func  NewSlashCommandFromToken
+#### func  New
 
 ```go
-func NewSlashCommandFromToken(rootCmd *cobra.Command) *SlashCommand
+func New(rootCmd *cobra.Command) *SlashCommand
 ```
 
 #### func (*SlashCommand) ServeHTTP

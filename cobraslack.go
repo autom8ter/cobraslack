@@ -14,7 +14,7 @@ type SlashCommand struct {
 }
 
 
-func NewSlashCommandFromToken(rootCmd *cobra.Command) *SlashCommand {
+func New(rootCmd *cobra.Command) *SlashCommand {
 	return &SlashCommand{
 		rootCmd: rootCmd,
 	}
