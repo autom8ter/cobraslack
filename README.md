@@ -1,6 +1,6 @@
 # cobraslack
 --
-    import "github.com/autom8ter/cobraslack"
+    import "."
 
 
 ## Usage
@@ -12,15 +12,20 @@ type SlashCommand struct {
 }
 ```
 
+SlashCommand creates a slack slash command that executes a cobra command
 
-#### func  New
-
-```go
-func New(rootCmd *cobra.Command) *SlashCommand
-```
-
-#### func (*SlashCommand) ServeHTTP
+#### func  NewSlashCommand
 
 ```go
-func (s *SlashCommand) ServeHTTP(w http.ResponseWriter, r *http.Request)
+func NewSlashCommand(root *cobra.Command) *SlashCommand
 ```
+NewSlashCommand creates a SlashCommand from the give root cobra command
+
+#### func (*SlashCommand) Handler
+
+```go
+func (s *SlashCommand) Handler() http.HandlerFunc
+```
+Handler returns an http handler that sets the arguments to the root cobra
+command from the text of the slash command the output of the cobra command is
+written directly to the response body.
