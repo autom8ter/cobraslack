@@ -5,27 +5,22 @@
 
 ## Usage
 
-#### type SlashCommand
+#### func  QueryHandler
 
 ```go
-type SlashCommand struct {
-}
+func QueryHandler(cmd *cobra.Command) http.HandlerFunc
 ```
+QueryHandler returns an http handler that sets the arguments to the root cobra
+command from the text of the 'text' query paramater the output of the cobra
+command is written directly to the response body. example executing "echo -h"
+subcommand: curl -X GET "$(host)/command?text=echo%20-h"
 
-SlashCommand creates a slack slash command that executes a cobra command
-
-#### func  NewSlashCommand
+#### func  SlackHandler
 
 ```go
-func NewSlashCommand(root *cobra.Command) *SlashCommand
+func SlackHandler(cmd *cobra.Command) http.HandlerFunc
 ```
-NewSlashCommand creates a SlashCommand from the give root cobra command
-
-#### func (*SlashCommand) Handler
-
-```go
-func (s *SlashCommand) Handler() http.HandlerFunc
-```
-Handler returns an http handler that sets the arguments to the root cobra
+SlackHandler returns an http handler that sets the arguments to the root cobra
 command from the text of the slash command the output of the cobra command is
-written directly to the response body.
+written directly to the response body as a slack message. example executing
+"echo -h" subcommand: curl -X POST "$(host)/command" --data "text=echo -h"
