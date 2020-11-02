@@ -15,7 +15,7 @@ import (
 // SlackHandler returns an http handler that sets the arguments to the root cobra command from the text of the slash command
 // the output of the cobra command is written directly to the response body as a slack message.
 // example executing "echo -h" subcommand: curl -X POST "$(host)/command" --data "text=echo -h"
-func SlackHandler(cmd *cobra.Command) http.HandlerFunc {
+func SlackHandler(cmd *cobra.Command, verificationToken string) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
@@ -24,6 +24,11 @@ func SlackHandler(cmd *cobra.Command) http.HandlerFunc {
 			http.Error(w, fmt.Sprintf("failed to parse command: %s", err), http.StatusBadRequest)
 			return
 		}
+		if !slash.ValidateToken(verificationToken) {
+			http.Error(w, fmt.Sprintf("command verification failed"), http.StatusForbidden)
+			return
+		}
+
 		cmd.SetArgs(strings.Split(slash.Text, " "))
 		buf := bytes.NewBuffer(nil)
 		cmd.SetOut(buf)

@@ -27,7 +27,7 @@ func Test(t *testing.T) {
 	}
 	cmd2.Flags().StringVarP(&f, "file", "f", "", "file name to create")
 	cmd.AddCommand(cmd2)
-	srv := httptest.NewServer(cobraslack.SlackHandler(cmd))
+	srv := httptest.NewServer(cobraslack.SlackHandler(cmd, ""))
 	defer srv.Close()
 	endpoint := srv.URL
 	client := srv.Client()
